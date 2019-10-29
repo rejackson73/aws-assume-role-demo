@@ -1,6 +1,6 @@
 resource "aws_iam_instance_profile" "iam_profile1" {
-  name  = "test_profile1"
-  role = "${aws_iam_role.role1.name}"
+  name = "test_profile1"
+  role = aws_iam_role.role1.name
 }
 
 resource "aws_iam_role" "role1" {
@@ -22,11 +22,12 @@ resource "aws_iam_role" "role1" {
     ]
 }
 EOF
+
 }
 
 resource "aws_iam_instance_profile" "iam_profile2" {
-  name  = "test_profile2"
-  role = "${aws_iam_role.role2.name}"
+  name = "test_profile2"
+  role = aws_iam_role.role2.name
 }
 
 resource "aws_iam_role" "role2" {
@@ -48,6 +49,7 @@ resource "aws_iam_role" "role2" {
     ]
 }
 EOF
+
 }
 
 data "aws_iam_policy_document" "conf_bucket_access" {
@@ -57,9 +59,8 @@ data "aws_iam_policy_document" "conf_bucket_access" {
     ]
 
     resources = [
-      "${aws_s3_bucket.conf_bucket.arn}",
+      aws_s3_bucket.conf_bucket[0].arn,
     ]
-
   }
 
   statement {
@@ -68,14 +69,15 @@ data "aws_iam_policy_document" "conf_bucket_access" {
     ]
 
     resources = [
-      "${aws_s3_bucket.conf_bucket.arn}",
-      "${aws_s3_bucket.conf_bucket.arn}/*",
+      aws_s3_bucket.conf_bucket[0].arn,
+      "${aws_s3_bucket.conf_bucket[0].arn}/*",
     ]
   }
 }
 
 resource "aws_iam_role_policy" "conf_bucket_access_policy" {
   name   = "AccessConfigurationBucket"
-  role = "${aws_iam_role.role2.name}"
-  policy = "${data.aws_iam_policy_document.conf_bucket_access.json}"
+  role   = aws_iam_role.role2.name
+  policy = data.aws_iam_policy_document.conf_bucket_access.json
 }
+
