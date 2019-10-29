@@ -1,3 +1,6 @@
+# NOTE
+Forked from the information below.  This repository automates the installation of the awscli but also requires you to insert your own ssh keys.
+
 # Setting up AWS EC2 assume role with Terraform
 
 Please see accompanying [blog post](http://echorand.me/setting-up-aws-ec2-assume-role-with-terraform.html) first. I did a talk
